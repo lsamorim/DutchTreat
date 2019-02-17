@@ -1,13 +1,17 @@
-﻿<!DOCTYPE html>
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Dutch Treat</title>
-    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
-    <link href="/css/site.css" rel="stylesheet" />
-    <script src="/js/index.js"></script>
+    <title>Dutch Treat: @ViewBag.Title</title>
+    <script src="~/node_modules/jquery/dist/jquery.min.js"></script>
+    <link href="~/css/site.css" rel="stylesheet" />
+    <script src="~/js/index.js"></script>
 </head>
 <body>
-    <h2>Dutch Treat</h2>
+    <h2>@ViewBag.Title</h2>
     <!--<p>The is <strong>going</strong> to be a site <a href="http://google.com">where</a> we can buy dutch artists merchandise.</p>
     <ul>
         <li>One</li>

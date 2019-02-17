@@ -15,17 +15,32 @@ namespace DutchTreat
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // Check if env.IsEnviroment("Development") -- ASPNETCORE_ENVIRONMENT == 'Development'
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
             //app.Run(async (context) =>
             //{
             //    await context.Response.WriteAsync("<html><body><h1>Hello, World!</h1></body></html>");
             //});
-            app.UseDefaultFiles();
+            //app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseNodeModules(env);
+
+            app.UseMvc(configuration =>
+            {
+                configuration.MapRoute("Default",
+                    "/{controller}/{action}/{id?}",
+                    new { controller = "App", Action = "Index" });
+            });
         }
     }
 }
