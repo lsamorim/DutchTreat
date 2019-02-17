@@ -1,0 +1,33 @@
+﻿body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+label {
+    font-size: 16px;
+}
+
+input, textarea {
+    font-size: 18px;
+    width: 200px;
+}
+
+input[type=submit] {
+    width: auto;
+}
+
+div#theForm {
+    background-color: #d8d8d8
+}
+
+#theForm input[type=submit] {
+    background-color: green;
+    color: white;
+}
+
+ul.productProps {
+    font-size: small;
+}
+
+ul.productProps li {
+    list-style-type: none;
+}
