@@ -1,7 +1,10 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-<script src="~/js/index.js"></script>
+
+@section Scripts {
+    <script src="~/js/index.js"></script>
+}
 <!--<p>The is <strong>going</strong> to be a site <a href="http://google.com">where</a> we can buy dutch artists merchandise.</p>
 <ul>
     <li>One</li>
@@ -17,7 +20,7 @@
         <li>Title: </li>
         <li>Description: Self-portrait</li>
     </ul>
-    <button id="buy-button">Buy</button>
+    <button id="buy-button" class="btn btn-success">Buy</button>
 </div>
 
 <div>

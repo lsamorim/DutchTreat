@@ -37,6 +37,8 @@ namespace DutchTreat.Controllers
             {
                 // Send the email
                 _mailService.SendMail("lsamorim.it@gmail.com", model.Subject, $"From: {model.Name}, Message: {model.Message}");
+                ViewBag.UserMessage = "Mail Sent!";
+                ModelState.Clear();
             }
 
             return View();
