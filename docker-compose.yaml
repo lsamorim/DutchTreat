@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  dutchtreat:
+    image: dutchtreat
+    build:
+      context: .
+    ports:
+      - "8080:80"
