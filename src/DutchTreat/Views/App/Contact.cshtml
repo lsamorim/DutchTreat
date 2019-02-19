@@ -14,7 +14,7 @@
 
             <div class="form-group">
                 <label asp-for="Name">Your Name: </label>
-                <input class="form-control" asp-for="Name"/>
+                <input class="form-control" asp-for="Name" />
                 <span class="text-danger" asp-validation-for="Name"></span>
             </div>
             <div class="form-group">
@@ -33,7 +33,8 @@
                 <span class="text-danger" asp-validation-for="Message"></span>
             </div>
             <div class="form-group">
-                <input class="btn btn-primary" type="submit" value="Send Message" />
+                <button class="btn btn-primary btn-md" type="submit"><i class="fa fa-envelope"></i> Send Message</button>
+                @*<input class="btn btn-primary" type="submit" value="Send Message" />*@
                 <div class="text-success">@ViewBag.UserMessage</div>
             </div>
 
