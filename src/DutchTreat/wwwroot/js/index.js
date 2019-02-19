@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
-    var theForm = document.getElementById("the-form");
-    theForm.hidden = true;
+    //var theForm = document.getElementById("the-form");
+    //theForm.hidden = true;
 
     var button = document.getElementById("buy-button");
     button.addEventListener("click", onBuyClicked);
