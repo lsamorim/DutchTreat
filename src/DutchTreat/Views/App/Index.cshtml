@@ -5,41 +5,45 @@
 @section Scripts {
     <script src="~/js/index.js"></script>
 }
-<!--<p>The is <strong>going</strong> to be a site <a href="http://google.com">where</a> we can buy dutch artists merchandise.</p>
-<ul>
-    <li>One</li>
-    <li>Two</li>
-    <li>Three</li>
-</ul>-->
-<div class="product-info">
-    <img src="/img/VanGogh.jpg" />
-    <h3>Mug</h3>
-    <ul class="product-props">
-        <li>Price: $9.99</li>
-        <li>Artist: Van Gogh</li>
-        <li>Title: </li>
-        <li>Description: Self-portrait</li>
-    </ul>
-    <button id="buy-button" class="btn btn-success">Buy</button>
-</div>
 
-<div>
-    <div id="login-toggle">Login</div>
-    <form class="popup-form">
-        <div>
-            <label>Username</label>
-            <input />
+<div class="row">
+    <div class="col-md-9">
+        <div class="product-info">
+            <img src="/img/VanGogh.jpg" />
+            <h3>Mug</h3>
+            <ul class="product-props">
+                <li>Price: $9.99</li>
+                <li>Artist: Van Gogh</li>
+                <li>Title: </li>
+                <li>Description: Self-portrait</li>
+            </ul>
+            <button id="buy-button" class="btn btn-success">Buy</button>
         </div>
+
         <div>
-            <label>Password</label>
-            <input type="password" />
+            <div id="login-toggle">Login</div>
+            <form class="popup-form">
+                <div>
+                    <label>Username</label>
+                    <input />
+                </div>
+                <div>
+                    <label>Password</label>
+                    <input type="password" />
+                </div>
+                <div>
+                    <input type="checkbox" />
+                    <label>Remember me</label>
+                </div>
+                <div>
+                    <input type="submit" value="Login" />
+                </div>
+            </form>
         </div>
-        <div>
-            <input type="checkbox" />
-            <label>Remember me</label>
-        </div>
-        <div>
-            <input type="submit" value="Login" />
-        </div>
-    </form>
+    </div>
+    <div class="col-md-3">
+        <p>
+            The is a fun site
+        </p>
+    </div>
 </div>
