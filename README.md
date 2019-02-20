@@ -6,7 +6,7 @@ I created this project to explore the structure of a AspNet Empty Template.
 
 ## Entity Framework Core
 
-### My Setup (do not do it if you're gonna run the project)
+### My Setup (don't do it if you're gonna run the project)
 
 #### First time
 
