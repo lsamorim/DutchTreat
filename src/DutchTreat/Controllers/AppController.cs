@@ -13,12 +13,12 @@ namespace DutchTreat.Controllers
     public class AppController : Controller
     {
         private readonly IMailService _mailService;
-        private readonly DutchContext _context;
+        private readonly IDutchRepository _repository;
 
-        public AppController(IMailService mailService, DutchContext context)
+        public AppController(IMailService mailService, IDutchRepository repository)
         {
             _mailService = mailService;
-            _context = context;
+            _repository = repository;
         }
 
         public IActionResult Index()
@@ -52,11 +52,10 @@ namespace DutchTreat.Controllers
             return View();
         }
 
+        [HttpGet("shop")]
         public IActionResult Shop()
         {
-            var results = from p in _context.Products
-                          orderby p.Category
-                          select p;
+            var results = _repository.GetAllProducts();
 
             return View(results.ToList());
         }
