@@ -26,3 +26,4 @@ I created this project to explore the structure of a AspNet Empty Template.
 [3] run: ```dotnet ef database drop``` - That will drop the database
 
 [4] run: ```dotnet ef database update``` - That will execute all instructions of migrations that were created in **Data/Migrations** directory
+* But the project has the DutchSeeder that will force to execute all Migration if database does not exist yet
