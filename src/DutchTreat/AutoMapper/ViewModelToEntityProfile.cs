@@ -10,7 +10,11 @@ namespace DutchTreat.AutoMapper
         {
             CreateMap<OrderViewModel, Order>()
                 .ForMember(entity => entity.Id,
-                           opt => opt.MapFrom(viewModel => viewModel.OrderId));
+                           opt => opt.MapFrom(viewModel => viewModel.OrderId))
+                .ReverseMap();
+
+            CreateMap<OrderItemViewModel, OrderItem>()
+                .ReverseMap();
         }
     }
 }
