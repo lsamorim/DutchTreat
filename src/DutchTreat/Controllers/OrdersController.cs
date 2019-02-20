@@ -1,4 +1,5 @@
-﻿using DutchTreat.Data;
+﻿using AutoMapper;
+using DutchTreat.Data;
 using DutchTreat.Data.Entities;
 using DutchTreat.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -14,21 +15,25 @@ namespace DutchTreat.Controllers
     {
         private readonly IDutchRepository _repository;
         private readonly ILogger<OrdersController> _logger;
+        private readonly IMapper _mapper;
 
-        public OrdersController(IDutchRepository repository, ILogger<OrdersController> logger)
+        public OrdersController(IDutchRepository repository, ILogger<OrdersController> logger, IMapper mapper)
         {
             _repository = repository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet]
         //[ProducesResponseType(200)]
         //[ProducesResponseType(500)]
-        public ActionResult<IEnumerable<Order>> Get()
+        public ActionResult<IEnumerable<OrderViewModel>> Get()
         {
             try
             {
-                return Ok(_repository.GetAllOrders());
+                var orders = _repository.GetAllOrders();
+                var orderViewModels = _mapper.Map<IEnumerable<OrderViewModel>>(orders);
+                return Ok(orderViewModels);
             }
             catch (Exception ex)
             {
@@ -38,7 +43,7 @@ namespace DutchTreat.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public ActionResult<Order> Get(int id)
+        public ActionResult<OrderViewModel> Get(int id)
         {
             try
             {
@@ -46,7 +51,8 @@ namespace DutchTreat.Controllers
 
                 if (order != null)
                 {
-                    return Ok(order);
+                    var orderViewModel = _mapper.Map<OrderViewModel>(order);
+                    return Ok(orderViewModel);
                 }
                 else
                 {
@@ -61,30 +67,20 @@ namespace DutchTreat.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Order> Post([FromBody] OrderViewModel model)
+        public ActionResult<OrderViewModel> Post([FromBody] OrderViewModel orderViewModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var order = new Order
-                    {
-                        OrderDate = model.OrderDate.Value,
-                        OrderNumber = model.OrderNumber,
-                        Id = model.OrderId
-                    };
+                    var order = _mapper.Map<OrderViewModel, Order>(orderViewModel);
 
                     _repository.AddEntity(order);
                     if (_repository.SaveChanges())
                     {
-                        var viewModel = new OrderViewModel
-                        {
-                            OrderDate = order.OrderDate,
-                            OrderNumber = order.OrderNumber,
-                            OrderId = order.Id
-                        };
+                        orderViewModel = _mapper.Map<Order, OrderViewModel>(order);
 
-                        return Created($"{HttpContext.Request.Path}/{viewModel.OrderId}", viewModel);
+                        return Created($"{HttpContext.Request.Path}/{orderViewModel.OrderId}", orderViewModel);
                     }
                 }
                 else

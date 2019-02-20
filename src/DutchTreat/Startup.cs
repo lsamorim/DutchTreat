@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using DutchTreat.Data;
 using DutchTreat.Services;
 using Microsoft.AspNetCore.Builder;
@@ -35,6 +36,9 @@ namespace DutchTreat
             services.AddScoped<IDutchRepository, DutchRepository>();
 
             services.AddTransient<IMailService, NullMailService>();
+
+            services.AddAutoMapper();
+
             services.AddMvc()
                     .AddJsonOptions(opt =>
                         opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
