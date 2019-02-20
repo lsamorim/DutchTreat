@@ -32,8 +32,8 @@ namespace DutchTreat.Controllers
             try
             {
                 var orders = _repository.GetAllOrders();
-                var orderViewModels = _mapper.Map<IEnumerable<OrderViewModel>>(orders);
-                return Ok(orderViewModels);
+                var ordersViewModel = _mapper.Map<IEnumerable<OrderViewModel>>(orders);
+                return Ok(ordersViewModel);
             }
             catch (Exception ex)
             {
