@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using DutchTreat.Data;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
 namespace DutchTreat
@@ -35,8 +37,20 @@ namespace DutchTreat
                 cfg.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<DutchContext>();
-            
-            services.AddDbContext<DutchContext>(cfg => 
+
+            services.AddAuthentication()
+                .AddCookie()
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidIssuer = _config["Tokens:Issuer"],
+                        ValidAudience = _config["Tokens:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]))
+                    };
+                });
+
+            services.AddDbContext<DutchContext>(cfg =>
                 cfg.UseSqlServer(_config.GetConnectionString("DutchConnectionString"))
             );
             services.AddTransient<DutchSeeder>();
@@ -46,7 +60,7 @@ namespace DutchTreat
             services.AddScoped<IDutchRepository, DutchRepository>();
 
             services.AddTransient<IMailService, NullMailService>();
-            
+
             services.AddMvc()
                     .AddJsonOptions(opt =>
                         opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
