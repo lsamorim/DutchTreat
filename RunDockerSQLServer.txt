@@ -1,0 +1,9 @@
+docker run `
+--name LazySQL `
+-p 1500:1433 `
+-e "ACCEPT_EULA=Y" `
+-e "SA_PASSWORD=SuperSnail" `
+-v E:\Lucas\Dev\docker\SQLServer\data\:/var/opt/mssql/data `
+-v E:\Lucas\Dev\docker\SQLServer\log\:/var/opt/mssql/log `
+-v E:\Lucas\Dev\docker\SQLServer\backup\:/var/opt/mssql/backup `
+-d mcr.microsoft.com/mssql/server
