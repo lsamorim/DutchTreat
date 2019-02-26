@@ -14,17 +14,8 @@ I created this project to explore the structure of a AspNet Empty Template.
 
 [2] run: ```dotnet ef database update ``` - That will setup migrations
 
-[3] run: ```dotnet ef migrations add InitialDb``` - That will create a migration item named as *InitialDb* containing instructions to create the **Entities' tables**
+[3] run: ```dotnet ef migrations add MyMigrationName``` - That will create a migration item named as *MyMigrationName* containing instructions to create Tables for all DbSet of the DbContext (including DbSets for Identity from IdentityDbContext)
 
 [4] run: ```dotnet ef database update ``` - That will execute all instructions of migrations that were created in **Data/Migrations** directory
 
-#### After derive from IdentityDbContext
-[1] cmd: navigate to the project directory
-
-[2] run: ```dotnet ef migrations add Identity``` - That will create a migration item named as *Identity* containing instructions to create the entities' for **Identity tables**
-
-[3] run: ```dotnet ef database drop``` - That will drop the database
-
-[4] run: ```dotnet ef database update``` - That will execute all instructions of migrations that were created in **Data/Migrations** directory
-
-#### The project has the DutchSeeder that will force to execute all Migrations if the database does not exist yet
+#### The project has the DutchSeeder will ensure the creation of DutchDb and all its tables by calling ```_ctx.Database.EnsureCreated();``` on ```DutchSeeder.cs```
