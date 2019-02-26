@@ -1,0 +1,32 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "mssql-dutchtreat",
+      "image": "mcr.microsoft.com/mssql/server:latest",
+      "essential": true,
+      "memory": 128,
+      "portMappings": [
+        {
+          "hostPort": 1500,
+          "containerPort": 1433
+        }
+      ]
+    },
+    {
+      "name": "dotnetcore-dutchtreat",
+      "image": "778356921117.dkr.ecr.sa-east-1.amazonaws.com/dutchtreat-aspnet-core:latest",
+      "essential": true,
+      "memory": 128,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 5000
+        }
+      ],
+      "links": [
+        "mssql-dutchtreat"
+      ]
+    }
+  ]
+}

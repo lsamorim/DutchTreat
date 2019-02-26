@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DutchTreat.Data;
 using DutchTreat.Data.Entities;
+using DutchTreat.Data.Repository;
+using DutchTreat.Data.UoW;
 using DutchTreat.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,12 +34,13 @@ namespace DutchTreat
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // Infra - Identity
             services.AddIdentity<StoreUser, IdentityRole>(cfg =>
             {
                 cfg.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<DutchContext>();
-
+            
             services.AddAuthentication()
                 .AddCookie()
                 .AddJwtBearer(cfg =>
@@ -50,16 +53,20 @@ namespace DutchTreat
                     };
                 });
 
+            // Infra - Data
             services.AddDbContext<DutchContext>(cfg =>
                 cfg.UseSqlServer(_config.GetConnectionString("DutchConnectionString"))
             );
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IRepository<Order>, EFRepository<Order, DutchContext>>();
+            services.AddScoped<IRepository<Product>, EFRepository<Product, DutchContext>>();
+
             services.AddTransient<DutchSeeder>();
+            
+            // Infra - Services
+            services.AddScoped<IMailService, NullMailService>();
 
             services.AddAutoMapper();
-
-            services.AddScoped<IDutchRepository, DutchRepository>();
-
-            services.AddTransient<IMailService, NullMailService>();
 
             services.AddMvc()
                     .AddJsonOptions(opt =>

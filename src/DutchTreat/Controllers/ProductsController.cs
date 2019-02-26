@@ -1,5 +1,6 @@
 ﻿using DutchTreat.Data;
 using DutchTreat.Data.Entities;
+using DutchTreat.Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,13 +14,14 @@ namespace DutchTreat.Controllers
     //[Produces("application/json")]
     public class ProductsController : ControllerBase
     {
-        private readonly IDutchRepository _repository;
         private readonly ILogger<ProductsController> _logger;
+        private readonly IRepository<Product> _productRepository;
 
-        public ProductsController(IDutchRepository repository, ILogger<ProductsController> logger)
+        public ProductsController(ILogger<ProductsController> logger,
+            IRepository<Product> productRepository)
         {
-            _repository = repository;
             _logger = logger;
+            _productRepository = productRepository;
         }
 
         [HttpGet]
@@ -29,7 +31,7 @@ namespace DutchTreat.Controllers
         {
             try
             {
-                return Ok(_repository.GetAllProducts());
+                return Ok(_productRepository.GetAll());
             }
             catch (Exception ex)
             {

@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DutchTreat.Data.Entities
 {
-    public class Product
+    public class Product : Entity
     {
-        public int Id { get; set; }
         public string Category { get; set; }
         public string Size { get; set; }
         public decimal Price { get; set; }

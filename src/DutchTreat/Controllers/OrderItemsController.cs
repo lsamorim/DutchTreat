@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using DutchTreat.Data;
 using DutchTreat.Data.Entities;
+using DutchTreat.Data.Repository;
+using DutchTreat.Data.UoW;
 using DutchTreat.ViewModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -20,18 +22,23 @@ namespace DutchTreat.Controllers
     [Route("api/orders/{orderId}/items")]
     public class OrderItemsController : ControllerBase
     {
-        private readonly IDutchRepository _repository;
-        private readonly ILogger<OrderItemsController> _logger;
-        private readonly IMapper _mapper;
         private readonly UserManager<StoreUser> _userManager;
+        private readonly ILogger<OrderItemsController> _logger;
+        private readonly IUnitOfWork _uow;
+        private readonly IRepository<Order> _orderRepository;
+        private readonly IMapper _mapper;
 
-        public OrderItemsController(IDutchRepository repository, ILogger<OrderItemsController> logger, IMapper mapper,
-            UserManager<StoreUser> userManager)
+        public OrderItemsController(UserManager<StoreUser> userManager,
+            ILogger<OrderItemsController> logger,
+            IUnitOfWork uow,
+            IRepository<Order> orderRepository,
+            IMapper mapper)
         {
-            _repository = repository;
-            _logger = logger;
-            _mapper = mapper;
             _userManager = userManager;
+            _logger = logger;
+            _uow = uow;
+            _orderRepository = orderRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -39,7 +46,11 @@ namespace DutchTreat.Controllers
         {
             try
             {
-                var order = _repository.GetOrderById(User.Identity.Name, orderId);
+                var order = _orderRepository.GetFirst(
+                    o =>
+                    o.User.UserName == User.Identity.Name &&
+                    o.Id == orderId,
+                    includeProperties: "Items");
 
                 if (order != null)
                 {
@@ -63,13 +74,17 @@ namespace DutchTreat.Controllers
         {
             try
             {
-                var order = _repository.GetOrderById(User.Identity.Name, orderId);
+                var order = _orderRepository.GetFirst(
+                   o =>
+                   o.User.UserName == User.Identity.Name &&
+                   o.Id == orderId,
+                   includeProperties: "Items");
 
                 if (order != null)
                 {
                     var orderItem = order.Items.Where(i => i.Id == id).FirstOrDefault();
 
-                    if(orderItem != null)
+                    if (orderItem != null)
                     {
                         return Ok(_mapper.Map<OrderItemViewModel>(orderItem));
                     }
@@ -97,26 +112,33 @@ namespace DutchTreat.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    
-
-                    var order = _repository.GetOrderById(User.Identity.Name, orderId);
-
-                    if (order != null)
+                    using (_uow)
                     {
-                        var orderItem = _mapper.Map<OrderItem>(orderItemViewModel);
-                        order.Items.Add(orderItem);
-                        
-                        if (_repository.SaveChanges())
-                        {
-                            orderItemViewModel = _mapper.Map<OrderItemViewModel>(orderItem);
+                        var order = _orderRepository.GetFirst(
+                       o =>
+                       o.User.UserName == User.Identity.Name &&
+                       o.Id == orderId,
+                       includeProperties: "Items");
 
-                            return Created($"{HttpContext.Request.Path}/{orderItemViewModel.Id}", orderItemViewModel);
+                        if (order != null)
+                        {
+                            var orderItem = _mapper.Map<OrderItem>(orderItemViewModel);
+                            order.Items.Add(orderItem);
+                            _orderRepository.Update(order);
+
+                            if (await _uow.CommitAsync())
+                            {
+                                orderItemViewModel = _mapper.Map<OrderItemViewModel>(orderItem);
+
+                                return Created($"{HttpContext.Request.Path}/{orderItemViewModel.Id}", orderItemViewModel);
+                            }
+                        }
+                        else
+                        {
+                            return NotFound();
                         }
                     }
-                    else
-                    {
-                        return NotFound();
-                    }
+                    
                 }
                 else
                 {

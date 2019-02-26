@@ -1,16 +1,18 @@
 {
   "ConnectionStrings": {
-    "DutchConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Database=DutchTreatDb;Integrated Security=True;Connect Timeout=30;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;MultipleActiveResultSets=True"
+    "DutchConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Database=DutchTreatDb;Integrated Security=True;Connect Timeout=30;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;MultipleActiveResultSets=True",
+    "Docker_DutchConnectionString": "Data Source=localhost,1500;Database=DutchTreatDb;Integrated Security=False;User ID=sa;Password=#Dutch#treat#321;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False",
+    "DockerLink_DutchConnectionString": "Data Source=mssql-dutchtreat,1433;Database=DutchTreatDb;Integrated Security=False;User ID=sa;Password=#Dutch#treat#321;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
   },
   "Logging": {
     "LogLevel": {
       "Default": "Information",
-      "Microsoft": "Warning"
+      "Microsoft": "Information"
     }
   },
   "Tokens": {
     "Key": "ASDHSAUBGJHGE111'120--=--=123",
     "Issuer": "localhost",
-    "Audience":  "users"
+    "Audience": "users"
   }
 }
