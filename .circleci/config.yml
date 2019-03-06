@@ -6,7 +6,8 @@ jobs:
     steps:
       - checkout
       - run: find .
-      - run: cd src/src
+      - run: ls -ls
+      - run: cd src/
       - run: ls -l
       - run: dotnet restore
       - run: dotnet build
