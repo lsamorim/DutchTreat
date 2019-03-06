@@ -1,5 +1,7 @@
 # DutchTreat
 
+[![Build status](https://build.appcenter.ms/v0.1/apps/b25abc42-dd80-4d66-9f78-ba740b701d87/branches/master/badge)](https://appcenter.ms)
+
 https://dutchtreat.projects.lsamorim.com <br>
 I created this project to explore the structure of a AspNet Empty Template.
 
